@@ -69,10 +69,7 @@ jobs:
           echo "App did not become ready in time."
           exit 1
 
-      - name: Stop container
-        if: always()
-        # Clean up even if an earlier step fails.
-        run: docker rm -f tiny-health-container || true
+      
 
 
       - name: Inspect Running Containers
