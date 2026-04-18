@@ -1,6 +1,6 @@
 # This workflow completes the story by delivering the saved package.
 # It starts after the build workflow finishes successfully.
-name: Deploy ECR
+name: 04 Deploy ECR
 
 on:
   push:
