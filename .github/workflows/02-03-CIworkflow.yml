@@ -59,13 +59,28 @@ jobs:
         # Build only after the verification step passes.
         run: python -m unittest discover -s tests -v
 
+
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT_ID }}:role/github-role
+          aws-region: us-east-1
+
+      # Log in to ECR (AWS now knows who you are!)
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+
+
+
       - name: Set image tag
         # Use today's UTC date plus the GitHub run ID.
         # This keeps the tag easy to explain and still unique for the run.
         id: image-tag
         run: |
-          TODAY="$(date -u +%Y-%m-%d)"
-          IMAGE_TAG="${TODAY}-${GITHUB_RUN_ID}"
+          IMAGE_TAG="my-image"
           echo "image_tag=$IMAGE_TAG" >> "$GITHUB_OUTPUT"
 
       # - name: Build Docker image with docker build
