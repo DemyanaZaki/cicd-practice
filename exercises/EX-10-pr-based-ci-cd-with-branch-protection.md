@@ -49,6 +49,7 @@ Reference solutions: instructor repo only.
 
 1. create a feature branch
 2. make one safe change
+2.0.1. 1 ONE SAFE CHANGE FEATURE BR
 3. open a pull request to `main`
 4. watch PR CI run
 5. confirm merge is blocked until CI passes
