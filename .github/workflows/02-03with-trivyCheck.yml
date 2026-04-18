@@ -106,7 +106,7 @@ jobs:
 
       # 2. Run Trivy (The Security Gate)
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@0.20.0
+        uses: aquasecurity/trivy-action
         with:
           image-ref: 'public.ecr.aws/b1h5p0w8/gitactions-repo:${{ steps.image-tag.outputs.image_tag }}'
           format: 'table'
