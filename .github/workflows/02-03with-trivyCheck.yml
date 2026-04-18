@@ -1,4 +1,4 @@
-name: 02-03 Workflow With Trivy Check
+name: 02-03 Workflow With Trivy
 on:
   # Run automatically when app code, tests, or this workflow file changes.
   push:
