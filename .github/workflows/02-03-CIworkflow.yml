@@ -116,6 +116,6 @@ jobs:
           IMAGE_TAG: ${{ steps.image-tag.outputs.image_tag }}
         run: |
           # Build the image
-          docker build -t $public.ecr.aws/b1h5p0w8/gitactions-repo:$IMAGE_TAG .
+          docker build -t public.ecr.aws/b1h5p0w8/gitactions-repo:$IMAGE_TAG .
           # Push both tags to AWS
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push public.ecr.aws/b1h5p0w8/gitactions-repo:$IMAGE_TAG
