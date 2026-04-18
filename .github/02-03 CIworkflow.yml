@@ -6,7 +6,7 @@ on:
     paths:
       - "app/**"
       - "tests/**"
-      - ".github/workflows/02-ci.yml"
+      - ".github/workflows/03-ci-build.yml"
   # Allow a safe manual run before students trigger it with a code change.
   workflow_dispatch:
 
