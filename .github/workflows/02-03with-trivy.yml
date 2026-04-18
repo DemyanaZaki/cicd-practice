@@ -1,10 +1,8 @@
 name: 02-03 With Trivy
 
 on:
-  # Run automatically when app code, tests, or this workflow file changes.
-  pull:
-    paths:
-    banches:
+  pull_request:
+    branches:
       - main
   # Allow a safe manual run before students trigger it with a code change.
   workflow_dispatch:
