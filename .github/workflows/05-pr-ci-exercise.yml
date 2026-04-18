@@ -1,0 +1,23 @@
+name: 05 PR CI Exercise
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    # Runs when a PR is created, when new code is pushed to it, or if it's reopened.
+    types: [opened, synchronize, reopened]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run tests
+        # We use the test command from your original file
+        run: python -m unittest discover -s tests -v

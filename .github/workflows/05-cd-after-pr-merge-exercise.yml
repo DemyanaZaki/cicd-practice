@@ -1,0 +1,18 @@
+name: 05 CD After Merge Exercise
+
+on:
+  pull_request:
+    branches: [ "main" ]
+    types: [closed]
+
+jobs:
+  deploy:
+    # IMPORTANT: This check ensures we don't deploy if a PR was closed WITHOUT merging.
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Report Deployment
+        run: |
+          echo "PR #${{ github.event.pull_request.number }} was successfully merged into main."
+          echo "Initiating production deployment sequence..."
+          # In a real scenario, you would put your 'docker build' and 'docker run' steps here.
