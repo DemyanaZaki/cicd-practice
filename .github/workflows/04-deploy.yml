@@ -69,6 +69,7 @@ jobs:
           echo "App did not become ready in time."
           exit 1
 
+          
       
 
 
@@ -79,4 +80,4 @@ jobs:
       - name: Check Health Endpoint
         run: |
           echo "Fetching /health response..."
-          curl -s http://127.0.0.1:8080/health
+          curl -s http://127.0.0.1:8000/health
