@@ -2,11 +2,10 @@ name: 02-03 With Trivy
 
 on:
   # Run automatically when app code, tests, or this workflow file changes.
-  push:
+  pull:
     paths:
-      - "app/**"
-      - "tests/**"
-      - ".github/workflows/03-ci-build.yml"
+    banches:
+      - main
   # Allow a safe manual run before students trigger it with a code change.
   workflow_dispatch:
 
@@ -125,3 +124,12 @@ jobs:
           # Push both tags
           docker push public.ecr.aws/b1h5p0w8/gitactions-repo:${{ steps.image-tag.outputs.image_tag }}
           docker push public.ecr.aws/b1h5p0w8/gitactions-repo:latest
+
+
+
+
+
+
+
+
+
