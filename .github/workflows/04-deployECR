@@ -1,0 +1,79 @@
+# This workflow completes the story by delivering the saved package.
+# It starts after the build workflow finishes successfully.
+name: Deploy Workflow
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# 🚨 REQUIRED: This grants the workflow permission to request the OIDC token
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  CONTAINER_NAME: tiny-health-container
+  APP_PORT: "8000"
+  ECR_REPOSITORY: github-action-course/my-app-repo
+  IMAGE_TAG: my-image
+
+jobs:
+  deploy-package:
+    # Use a fresh runner for the deployment simulation.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Authenticate to AWS using OIDC
+      - name: Configure AWS credentials
+        env:
+          AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: arn:aws:iam::${{ env.AWS_ACCOUNT_ID }}:role/GitHub_Action_Course
+          aws-region: us-east-1
+
+      # Log in to ECR (AWS now knows who you are!)
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: public
+
+      - name: Pull image from ECR
+
+        # Pull the exact same tagged image that the build workflow created.
+        run: |
+          docker pull "public.ecr.aws/b1h5p0w8/gitactions-repo:${IMAGE_TAG}"
+
+      - name: Start container
+        # Start the exact same tagged image that the build workflow created.
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        run: |
+          docker run -d \
+            --name "${CONTAINER_NAME}" \
+            -p "${APP_PORT}:8000" \
+            "public.ecr.aws/b1h5p0w8/gitactions-repo:${IMAGE_TAG}"
+
+      - name: Smoke test deployed app
+        # Retry a few times because app startup can take a moment.
+        run: |
+          for attempt in 1 2 3 4 5; do
+            if curl --fail --silent "http://127.0.0.1:${APP_PORT}/health"; then
+              exit 0
+            fi
+            echo "Waiting for app to become ready..."
+            sleep 2
+          done
+          echo "App did not become ready in time."
+          exit 1
+
+      - name: Show container running
+        # Quick visibility step so students can see the container is up.
+        run: docker ps --filter "name=${CONTAINER_NAME}"
+
+      - name: Stop container
+        if: always()
+        # Clean up even if an earlier step fails.
+        run: docker rm -f "${CONTAINER_NAME}" || true
