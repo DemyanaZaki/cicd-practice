@@ -94,7 +94,7 @@ jobs:
       #   # The deploy workflow will run this exact same tag later.
       #   run: |
       #     docker build \
-      #       -t "public.ecr.aws/b1h5p0w8/gitactions-repo:${{ steps.image-tag.outputs.image_tag }}" \
+      #       -t "${IMAGE_NAME}:${{ steps.image-tag.outputs.image_tag }}" \
       #       .
 
       # - name: Save Docker image as artifact file
@@ -116,9 +116,6 @@ jobs:
           IMAGE_TAG: ${{ steps.image-tag.outputs.image_tag }}
         run: |
           # Build the image
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-          # Tag it as latest as well
-          docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          docker build -t $public.ecr.aws/b1h5p0w8/gitactions-repo:$IMAGE_TAG .
           # Push both tags to AWS
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
