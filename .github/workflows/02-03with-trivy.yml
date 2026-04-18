@@ -9,9 +9,6 @@ on:
   # Allow a safe manual run before students trigger it with a code change.
   workflow_dispatch:
 
-permissions:
-  id-token: write # This is the magic line for OIDC
-  contents: read  # This is required for actions/checkout
 
 env:
   # Keep common image values in one place so the build steps stay readable.
