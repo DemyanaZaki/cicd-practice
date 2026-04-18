@@ -94,7 +94,7 @@ jobs:
       #   # The deploy workflow will run this exact same tag later.
       #   run: |
       #     docker build \
-      #       -t "${IMAGE_NAME}:${{ steps.image-tag.outputs.image_tag }}" \
+      #       -t "public.ecr.aws/b1h5p0w8/gitactions-repo:${{ steps.image-tag.outputs.image_tag }}" \
       #       .
 
       # - name: Save Docker image as artifact file
